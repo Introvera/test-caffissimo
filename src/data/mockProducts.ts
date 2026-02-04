@@ -1,12 +1,48 @@
 import { Product, AddOn } from "@/types";
 
-export const commonAddOns: AddOn[] = [
-  { id: "extra-shot", name: "Extra Shot", price: 0.75 },
+// Coffee Add-ons
+export const milkOptions: AddOn[] = [
+  { id: "whole-milk", name: "Whole Milk", price: 0 },
   { id: "oat-milk", name: "Oat Milk", price: 0.60 },
-  { id: "whipped-cream", name: "Whipped Cream", price: 0.50 },
-  { id: "vanilla-syrup", name: "Vanilla Syrup", price: 0.50 },
-  { id: "caramel-drizzle", name: "Caramel Drizzle", price: 0.50 },
+  { id: "almond-milk", name: "Almond Milk", price: 0.60 },
+  { id: "soy-milk", name: "Soy Milk", price: 0.50 },
+  { id: "coconut-milk", name: "Coconut Milk", price: 0.60 },
+  { id: "skim-milk", name: "Skim Milk", price: 0 },
 ];
+
+export const extraOptions: AddOn[] = [
+  { id: "extra-shot", name: "Extra Shot", price: 0.75 },
+  { id: "double-shot", name: "Double Shot", price: 1.25 },
+  { id: "decaf", name: "Decaf", price: 0 },
+];
+
+export const syrupOptions: AddOn[] = [
+  { id: "vanilla-syrup", name: "Vanilla", price: 0.50 },
+  { id: "caramel-syrup", name: "Caramel", price: 0.50 },
+  { id: "hazelnut-syrup", name: "Hazelnut", price: 0.50 },
+  { id: "mocha-syrup", name: "Mocha", price: 0.50 },
+  { id: "sugar-free-vanilla", name: "Sugar-Free Vanilla", price: 0.50 },
+];
+
+export const toppingOptions: AddOn[] = [
+  { id: "whipped-cream", name: "Whipped Cream", price: 0.50 },
+  { id: "caramel-drizzle", name: "Caramel Drizzle", price: 0.50 },
+  { id: "chocolate-drizzle", name: "Chocolate Drizzle", price: 0.50 },
+  { id: "cinnamon", name: "Cinnamon", price: 0 },
+  { id: "cocoa-powder", name: "Cocoa Powder", price: 0 },
+];
+
+export const coffeeAddOns = {
+  milk: milkOptions,
+  extras: extraOptions,
+  syrups: syrupOptions,
+  toppings: toppingOptions,
+};
+
+export const nonCoffeeAddOns = {
+  milk: milkOptions.filter(m => m.id !== "whole-milk"),
+  toppings: toppingOptions,
+};
 
 export const mockProducts: Product[] = [
   // Coffee
@@ -18,7 +54,7 @@ export const mockProducts: Product[] = [
     image: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=200&h=200&fit=crop",
     category: "Coffee",
     hasSizes: true,
-    addOns: commonAddOns,
+    addOns: [...extraOptions, ...syrupOptions.slice(0, 2), ...toppingOptions.slice(0, 2)],
   },
   {
     id: "coffee-latte",
@@ -28,7 +64,7 @@ export const mockProducts: Product[] = [
     image: "https://images.unsplash.com/photo-1561882468-9110e03e0f78?w=200&h=200&fit=crop",
     category: "Coffee",
     hasSizes: true,
-    addOns: commonAddOns,
+    addOns: [...extraOptions, ...syrupOptions.slice(0, 2), ...toppingOptions.slice(0, 2)],
   },
   {
     id: "americano",
@@ -38,7 +74,7 @@ export const mockProducts: Product[] = [
     image: "https://images.unsplash.com/photo-1521302080334-4bebac2763a6?w=200&h=200&fit=crop",
     category: "Coffee",
     hasSizes: true,
-    addOns: commonAddOns,
+    addOns: [...extraOptions, ...syrupOptions.slice(0, 2)],
   },
   {
     id: "v60",
@@ -48,7 +84,7 @@ export const mockProducts: Product[] = [
     image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=200&h=200&fit=crop",
     category: "Coffee",
     hasSizes: true,
-    addOns: commonAddOns,
+    addOns: [...extraOptions],
   },
   {
     id: "espresso",
@@ -58,7 +94,7 @@ export const mockProducts: Product[] = [
     image: "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=200&h=200&fit=crop",
     category: "Coffee",
     hasSizes: true,
-    addOns: commonAddOns,
+    addOns: [...extraOptions],
   },
   {
     id: "mocha",
@@ -68,7 +104,7 @@ export const mockProducts: Product[] = [
     image: "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=200&h=200&fit=crop",
     category: "Coffee",
     hasSizes: true,
-    addOns: commonAddOns,
+    addOns: [...extraOptions, ...syrupOptions.slice(0, 2), ...toppingOptions],
   },
   // Non Coffee
   {
@@ -79,7 +115,7 @@ export const mockProducts: Product[] = [
     image: "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?w=200&h=200&fit=crop",
     category: "Non Coffee",
     hasSizes: true,
-    addOns: [commonAddOns[1], commonAddOns[2]],
+    addOns: [...toppingOptions.slice(0, 2)],
   },
   {
     id: "chai-latte",
@@ -89,7 +125,7 @@ export const mockProducts: Product[] = [
     image: "https://images.unsplash.com/photo-1557006021-b85faa2bc5e2?w=200&h=200&fit=crop",
     category: "Non Coffee",
     hasSizes: true,
-    addOns: [commonAddOns[1], commonAddOns[2]],
+    addOns: [...syrupOptions.slice(0, 2), ...toppingOptions.slice(0, 2)],
   },
   {
     id: "hot-chocolate",
@@ -99,7 +135,7 @@ export const mockProducts: Product[] = [
     image: "https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=200&h=200&fit=crop",
     category: "Non Coffee",
     hasSizes: true,
-    addOns: [commonAddOns[2]],
+    addOns: [...toppingOptions],
   },
   {
     id: "fresh-orange-juice",

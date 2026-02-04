@@ -121,58 +121,75 @@ export function OrderPanel({ isOpen = true, onClose }: OrderPanelProps) {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, x: -100 }}
                       transition={{ duration: 0.2 }}
-                      className="flex gap-2 rounded-lg bg-surface-secondary p-2"
+                      className="rounded-lg bg-surface-secondary p-2.5"
                     >
-                      <div className="h-10 w-10 lg:h-12 lg:w-12 flex-shrink-0 overflow-hidden rounded-lg bg-surface">
-                        <img
-                          src={item.product.image}
-                          alt={item.product.name}
-                          className="h-full w-full object-cover"
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-start justify-between gap-1">
-                          <div className="min-w-0">
-                            <h4 className="text-xs lg:text-sm font-medium text-text-primary truncate">
-                              {item.product.name}
-                            </h4>
-                            {item.size && (
-                              <p className="text-xs text-text-muted">
-                                {item.size}
-                              </p>
-                            )}
-                          </div>
-                          <button
-                            onClick={() => removeItem(item.id)}
-                            className="p-0.5 text-text-muted hover:text-error transition-colors flex-shrink-0"
-                          >
-                            <Trash2 className="h-3.5 w-3.5" />
-                          </button>
+                      <div className="flex gap-2">
+                        <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-lg bg-surface">
+                          <img
+                            src={item.product.image}
+                            alt={item.product.name}
+                            className="h-full w-full object-cover"
+                          />
                         </div>
-                        <div className="mt-1 flex items-center justify-between">
-                          <p className="text-xs lg:text-sm font-semibold text-text-primary">
-                            {formatCurrency(item.totalPrice / item.quantity)}
-                          </p>
-                          <div className="flex items-center gap-1">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-start justify-between gap-1">
+                            <div className="min-w-0">
+                              <h4 className="text-sm font-medium text-text-primary truncate">
+                                {item.product.name}
+                              </h4>
+                              {item.size && (
+                                <p className="text-xs text-text-muted">
+                                  {item.size}
+                                </p>
+                              )}
+                            </div>
                             <button
-                              onClick={() =>
-                                updateQuantity(item.id, item.quantity - 1)
-                              }
-                              className="flex h-5 w-5 items-center justify-center rounded bg-surface text-text-secondary shadow-sm hover:bg-surface-hover transition-colors"
+                              onClick={() => removeItem(item.id)}
+                              className="p-0.5 text-text-muted hover:text-error transition-colors flex-shrink-0"
                             >
-                              <Minus className="h-2.5 w-2.5" />
+                              <Trash2 className="h-3.5 w-3.5" />
                             </button>
-                            <span className="w-4 text-center text-xs font-medium text-text-primary">
-                              {item.quantity}
-                            </span>
-                            <button
-                              onClick={() =>
-                                updateQuantity(item.id, item.quantity + 1)
-                              }
-                              className="flex h-5 w-5 items-center justify-center rounded bg-surface text-text-secondary shadow-sm hover:bg-surface-hover transition-colors"
-                            >
-                              <Plus className="h-2.5 w-2.5" />
-                            </button>
+                          </div>
+                          
+                          {/* Add-ons display */}
+                          {item.selectedAddOns.length > 0 && (
+                            <div className="mt-1 flex flex-wrap gap-1">
+                              {item.selectedAddOns.map((addon) => (
+                                <span
+                                  key={addon.id}
+                                  className="inline-flex items-center px-1.5 py-0.5 rounded bg-accent-light text-accent text-[10px] font-medium"
+                                >
+                                  {addon.name}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                          
+                          <div className="mt-1.5 flex items-center justify-between">
+                            <p className="text-sm font-semibold text-text-primary">
+                              {formatCurrency(item.totalPrice / item.quantity)}
+                            </p>
+                            <div className="flex items-center gap-1">
+                              <button
+                                onClick={() =>
+                                  updateQuantity(item.id, item.quantity - 1)
+                                }
+                                className="flex h-5 w-5 items-center justify-center rounded bg-surface text-text-secondary shadow-sm hover:bg-surface-hover transition-colors"
+                              >
+                                <Minus className="h-2.5 w-2.5" />
+                              </button>
+                              <span className="w-4 text-center text-xs font-medium text-text-primary">
+                                {item.quantity}
+                              </span>
+                              <button
+                                onClick={() =>
+                                  updateQuantity(item.id, item.quantity + 1)
+                                }
+                                className="flex h-5 w-5 items-center justify-center rounded bg-surface text-text-secondary shadow-sm hover:bg-surface-hover transition-colors"
+                              >
+                                <Plus className="h-2.5 w-2.5" />
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
