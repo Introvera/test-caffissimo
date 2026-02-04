@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
-import { motion } from "framer-motion";
+import React, { useState, useMemo, useEffect } from "react";
 import { Minus, Plus, Check, Coffee, Droplets, Sparkles, Cherry } from "lucide-react";
 import { Product, Size, AddOn } from "@/types";
 import { useCartStore } from "@/store/useStore";
@@ -19,6 +18,7 @@ interface CustomizeModalProps {
   product: Product;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  initialSize?: Size;
 }
 
 const sizes: Size[] = ["Small", "Medium", "Large"];
@@ -31,14 +31,30 @@ interface AddOnSection {
   multiSelect: boolean;
 }
 
-export function CustomizeModal({ product, open, onOpenChange }: CustomizeModalProps) {
+export function CustomizeModal({ product, open, onOpenChange, initialSize = "Medium" }: CustomizeModalProps) {
   const addItem = useCartStore((state) => state.addItem);
   const [quantity, setQuantity] = useState(1);
-  const [selectedSize, setSelectedSize] = useState<Size>("Medium");
+  const [selectedSize, setSelectedSize] = useState<Size>(initialSize);
   const [selectedMilk, setSelectedMilk] = useState<AddOn | null>(milkOptions[0]);
   const [selectedExtras, setSelectedExtras] = useState<AddOn[]>([]);
   const [selectedSyrups, setSelectedSyrups] = useState<AddOn[]>([]);
   const [selectedToppings, setSelectedToppings] = useState<AddOn[]>([]);
+
+  // Update size when initialSize changes
+  useEffect(() => {
+    setSelectedSize(initialSize);
+  }, [initialSize]);
+
+  // Reset when modal opens
+  useEffect(() => {
+    if (open) {
+      setQuantity(1);
+      setSelectedMilk(milkOptions[0]);
+      setSelectedExtras([]);
+      setSelectedSyrups([]);
+      setSelectedToppings([]);
+    }
+  }, [open]);
 
   const isCoffee = product.category === "Coffee";
   const hasAddOns = product.addOns && product.addOns.length > 0;
@@ -118,14 +134,8 @@ export function CustomizeModal({ product, open, onOpenChange }: CustomizeModalPr
       allAddOns
     );
     
-    // Reset and close
+    // Close modal
     onOpenChange(false);
-    setQuantity(1);
-    setSelectedSize("Medium");
-    setSelectedMilk(milkOptions[0]);
-    setSelectedExtras([]);
-    setSelectedSyrups([]);
-    setSelectedToppings([]);
   };
 
   const toggleOption = (

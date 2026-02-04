@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Plus } from "lucide-react";
-import { Product } from "@/types";
+import { Plus, Check, Settings2 } from "lucide-react";
+import { Product, Size } from "@/types";
 import { useCartStore } from "@/store/useStore";
 import { Button } from "@/components/ui/button";
 import { cn, formatCurrency } from "@/lib/utils";
@@ -14,20 +14,35 @@ interface ProductCardProps {
   index: number;
 }
 
+const sizes: Size[] = ["Small", "Medium", "Large"];
+
 export function ProductCard({ product, index }: ProductCardProps) {
   const addItem = useCartStore((state) => state.addItem);
+  const [selectedSize, setSelectedSize] = useState<Size>("Medium");
   const [showCustomize, setShowCustomize] = useState(false);
+  const [isAdded, setIsAdded] = useState(false);
 
-  const hasCustomization = product.hasSizes || (product.addOns && product.addOns.length > 0);
+  const hasCustomization = product.addOns && product.addOns.length > 0;
   const isCoffeeOrDrink = product.category === "Coffee" || product.category === "Non Coffee";
 
-  const handleQuickAdd = () => {
-    if (hasCustomization || isCoffeeOrDrink) {
-      setShowCustomize(true);
-    } else {
-      // Quick add for items without customization
-      addItem(product, undefined, []);
+  const getPrice = () => {
+    let price = product.price;
+    if (product.hasSizes) {
+      if (selectedSize === "Medium") price += 0.50;
+      if (selectedSize === "Large") price += 1.00;
     }
+    return price;
+  };
+
+  const handleQuickAdd = () => {
+    addItem(product, product.hasSizes ? selectedSize : undefined, []);
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 1200);
+  };
+
+  const handleCustomize = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setShowCustomize(true);
   };
 
   return (
@@ -37,8 +52,7 @@ export function ProductCard({ product, index }: ProductCardProps) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.2, delay: index * 0.03 }}
         whileHover={{ y: -2 }}
-        onClick={handleQuickAdd}
-        className="group relative rounded-xl bg-surface p-2.5 sm:p-3 shadow-card transition-shadow duration-200 hover:shadow-lg cursor-pointer"
+        className="group relative rounded-xl bg-surface p-2.5 sm:p-3 shadow-card transition-shadow duration-200 hover:shadow-lg"
       >
         {/* Product Image */}
         <div className="relative mb-2 aspect-[4/3] overflow-hidden rounded-lg bg-surface-secondary">
@@ -47,27 +61,16 @@ export function ProductCard({ product, index }: ProductCardProps) {
             alt={product.name}
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
-          
-          {/* Quick Add Overlay */}
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-200 flex items-center justify-center">
-            <motion.div
-              initial={{ scale: 0, opacity: 0 }}
-              whileHover={{ scale: 1, opacity: 1 }}
-              className="hidden group-hover:flex h-10 w-10 items-center justify-center rounded-full bg-accent text-white shadow-lg"
-            >
-              <Plus className="h-5 w-5" />
-            </motion.div>
-          </div>
         </div>
 
         {/* Product Info */}
-        <div className="space-y-1">
+        <div className="space-y-1.5">
           <div className="flex items-start justify-between gap-1">
             <h3 className="font-medium text-text-primary text-xs sm:text-sm leading-tight line-clamp-1">
               {product.name}
             </h3>
             <span className="text-accent font-semibold whitespace-nowrap text-xs sm:text-sm">
-              {formatCurrency(product.price)}
+              {formatCurrency(getPrice())}
             </span>
           </div>
           
@@ -75,12 +78,75 @@ export function ProductCard({ product, index }: ProductCardProps) {
             {product.description}
           </p>
 
-          {/* Customizable indicator */}
-          {(hasCustomization || isCoffeeOrDrink) && (
-            <p className="text-xs text-accent font-medium">
-              Tap to customize
-            </p>
+          {/* Size Selector */}
+          {product.hasSizes && (
+            <div className="flex gap-1">
+              {sizes.map((size) => (
+                <button
+                  key={size}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedSize(size);
+                  }}
+                  className={cn(
+                    "flex-1 py-1 rounded text-xs font-medium transition-all duration-150",
+                    selectedSize === size
+                      ? "bg-text-primary text-surface"
+                      : "bg-surface-secondary text-text-secondary hover:bg-surface-hover"
+                  )}
+                >
+                  {size.charAt(0)}
+                </button>
+              ))}
+            </div>
           )}
+
+          {/* Action Buttons */}
+          <div className="flex items-center gap-1.5 pt-1">
+            {/* Customize Button (for items with add-ons) */}
+            {(hasCustomization || isCoffeeOrDrink) && (
+              <Button
+                onClick={handleCustomize}
+                variant="outline"
+                size="sm"
+                className="h-7 px-2 text-xs flex-1"
+              >
+                <Settings2 className="h-3 w-3 mr-1" />
+                Customize
+              </Button>
+            )}
+            
+            {/* Quick Add Button */}
+            <motion.div
+              initial={false}
+              animate={isAdded ? { scale: [1, 1.1, 1] } : {}}
+              transition={{ duration: 0.15 }}
+              className={cn(hasCustomization || isCoffeeOrDrink ? "" : "flex-1")}
+            >
+              <Button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleQuickAdd();
+                }}
+                disabled={isAdded}
+                variant={isAdded ? "success" : "default"}
+                size="sm"
+                className={cn(
+                  "h-7 text-xs transition-all duration-150",
+                  hasCustomization || isCoffeeOrDrink ? "px-2" : "w-full"
+                )}
+              >
+                {isAdded ? (
+                  <Check className="h-3.5 w-3.5" />
+                ) : (
+                  <>
+                    <Plus className="h-3.5 w-3.5" />
+                    {!(hasCustomization || isCoffeeOrDrink) && <span className="ml-1">Add</span>}
+                  </>
+                )}
+              </Button>
+            </motion.div>
+          </div>
         </div>
       </motion.div>
 
@@ -89,6 +155,7 @@ export function ProductCard({ product, index }: ProductCardProps) {
         product={product}
         open={showCustomize}
         onOpenChange={setShowCustomize}
+        initialSize={selectedSize}
       />
     </>
   );
