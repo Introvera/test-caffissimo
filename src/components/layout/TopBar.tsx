@@ -28,23 +28,23 @@ export function TopBar({
   const itemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-2 sm:gap-4 bg-cream/80 backdrop-blur-sm px-3 sm:px-4 lg:px-6">
+    <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-2 sm:gap-4 bg-cream/80 backdrop-blur-sm px-3 sm:px-4 lg:px-6 border-b border-border">
       <div className="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
         {onMenuClick && <MobileMenuButton onClick={onMenuClick} />}
         
         {title && (
-          <h1 className="text-base sm:text-lg lg:text-xl font-semibold text-gray-900 truncate">
+          <h1 className="text-base sm:text-lg lg:text-xl font-semibold text-text-primary truncate">
             {title}
           </h1>
         )}
         
         {showSearch && (
           <div className="relative flex-1 max-w-xs hidden sm:block">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted" />
             <Input
               type="text"
               placeholder="Search menu..."
-              className="pl-10 bg-white border-gray-200 h-9"
+              className="pl-10 h-9"
             />
           </div>
         )}
@@ -61,7 +61,7 @@ export function TopBar({
         {/* Mobile search button */}
         {showSearch && (
           <Button variant="ghost" size="icon-sm" className="sm:hidden">
-            <Search className="h-4 w-4 text-gray-500" />
+            <Search className="h-4 w-4 text-text-muted" />
           </Button>
         )}
 
@@ -83,16 +83,16 @@ export function TopBar({
         )}
 
         <Button variant="ghost" size="icon-sm" className="relative hidden sm:flex">
-          <Bell className="h-4 w-4 text-gray-500" />
+          <Bell className="h-4 w-4 text-text-muted" />
           <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-accent" />
         </Button>
         
-        <div className="hidden lg:flex items-center gap-2 pl-2 border-l border-gray-200">
+        <div className="hidden lg:flex items-center gap-2 pl-2 border-l border-border">
           <div className="text-right">
-            <p className="text-sm font-medium text-gray-900">Albert Flores</p>
-            <p className="text-xs text-gray-500">Cashier</p>
+            <p className="text-sm font-medium text-text-primary">Albert Flores</p>
+            <p className="text-xs text-text-muted">Cashier</p>
           </div>
-          <div className="h-8 w-8 overflow-hidden rounded-full bg-gray-200 flex-shrink-0">
+          <div className="h-8 w-8 overflow-hidden rounded-full bg-surface-secondary flex-shrink-0">
             <img
               src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face"
               alt="User avatar"

@@ -11,11 +11,11 @@ const buttonVariants = cva(
         default:
           "bg-accent text-white shadow-sm hover:bg-accent-hover focus-visible:ring-accent",
         secondary:
-          "bg-gray-100 text-gray-700 shadow-sm hover:bg-gray-200 focus-visible:ring-gray-400",
+          "bg-surface-secondary text-text-primary shadow-sm hover:bg-surface-hover focus-visible:ring-border",
         outline:
-          "border border-gray-200 bg-white text-gray-700 shadow-sm hover:bg-gray-50 hover:border-gray-300 focus-visible:ring-gray-400",
+          "border border-border bg-surface text-text-primary shadow-sm hover:bg-surface-hover focus-visible:ring-border",
         ghost:
-          "text-gray-700 hover:bg-gray-100 focus-visible:ring-gray-400",
+          "text-text-secondary hover:bg-surface-hover hover:text-text-primary focus-visible:ring-border",
         success:
           "bg-success text-white shadow-sm hover:bg-green-600 focus-visible:ring-success",
         destructive:

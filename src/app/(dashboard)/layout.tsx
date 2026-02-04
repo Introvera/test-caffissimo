@@ -41,7 +41,7 @@ export default function DashboardLayout({
       <div className="min-h-screen bg-cream">
         <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
         <main
-          className={`min-h-screen transition-all duration-300 lg:ml-64 ${
+          className={`min-h-screen transition-all duration-300 lg:ml-16 ${
             showOrderPanel ? "md:mr-72 lg:mr-80" : ""
           }`}
         >

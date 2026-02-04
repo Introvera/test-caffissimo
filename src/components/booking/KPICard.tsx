@@ -29,12 +29,12 @@ export function KPICard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: index * 0.1 }}
-      className="rounded-xl sm:rounded-2xl bg-white p-4 sm:p-6 shadow-card"
+      className="rounded-xl sm:rounded-2xl bg-surface p-4 sm:p-6 shadow-card"
     >
       <div className="flex items-start justify-between">
         <div className="min-w-0 flex-1">
-          <p className="text-xs sm:text-sm font-medium text-gray-500 truncate">{title}</p>
-          <p className="mt-1 sm:mt-2 text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-900">
+          <p className="text-xs sm:text-sm font-medium text-text-muted truncate">{title}</p>
+          <p className="mt-1 sm:mt-2 text-xl sm:text-2xl lg:text-3xl font-semibold text-text-primary">
             {format === "currency" ? formatCurrency(value) : value.toLocaleString()}
           </p>
           {change !== undefined && (

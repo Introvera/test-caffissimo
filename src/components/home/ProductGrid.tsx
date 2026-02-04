@@ -13,7 +13,7 @@ interface ProductGridProps {
 export function ProductGrid({ products, categoryTitle }: ProductGridProps) {
   return (
     <div>
-      <h2 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">
+      <h2 className="text-base sm:text-lg font-semibold text-text-primary mb-3 sm:mb-4">
         {categoryTitle} menu
       </h2>
       

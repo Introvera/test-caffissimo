@@ -51,10 +51,10 @@ export function ProductCard({ product, index }: ProductCardProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.2, delay: index * 0.03 }}
       whileHover={{ y: -2 }}
-      className="group relative rounded-xl bg-white p-2.5 sm:p-3 shadow-card transition-shadow duration-200 hover:shadow-lg"
+      className="group relative rounded-xl bg-surface p-2.5 sm:p-3 shadow-card transition-shadow duration-200 hover:shadow-lg"
     >
       {/* Product Image - smaller aspect ratio */}
-      <div className="relative mb-2 aspect-[4/3] overflow-hidden rounded-lg bg-gray-100">
+      <div className="relative mb-2 aspect-[4/3] overflow-hidden rounded-lg bg-surface-secondary">
         <img
           src={product.image}
           alt={product.name}
@@ -65,7 +65,7 @@ export function ProductCard({ product, index }: ProductCardProps) {
       {/* Product Info */}
       <div className="space-y-1.5">
         <div className="flex items-start justify-between gap-1">
-          <h3 className="font-medium text-gray-900 text-xs sm:text-sm leading-tight line-clamp-1">
+          <h3 className="font-medium text-text-primary text-xs sm:text-sm leading-tight line-clamp-1">
             {product.name}
           </h3>
           <span className="text-accent font-semibold whitespace-nowrap text-xs sm:text-sm">
@@ -73,7 +73,7 @@ export function ProductCard({ product, index }: ProductCardProps) {
           </span>
         </div>
         
-        <p className="text-xs text-gray-500 line-clamp-1 leading-relaxed hidden sm:block">
+        <p className="text-xs text-text-muted line-clamp-1 leading-relaxed hidden sm:block">
           {product.description}
         </p>
 
@@ -87,8 +87,8 @@ export function ProductCard({ product, index }: ProductCardProps) {
                 className={cn(
                   "flex-1 py-1 rounded text-xs font-medium transition-all duration-150",
                   selectedSize === size
-                    ? "bg-gray-900 text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                    ? "bg-text-primary text-surface"
+                    : "bg-surface-secondary text-text-secondary hover:bg-surface-hover"
                 )}
               >
                 {size.charAt(0)}
@@ -98,18 +98,18 @@ export function ProductCard({ product, index }: ProductCardProps) {
         )}
 
         {/* Quantity & Add to Order - compact */}
-        <div className="flex items-center justify-between pt-1.5 border-t border-gray-100">
+        <div className="flex items-center justify-between pt-1.5 border-t border-border">
           <div className="flex items-center gap-1">
             <button
               onClick={() => setQuantity(Math.max(1, quantity - 1))}
-              className="flex h-6 w-6 items-center justify-center rounded bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors"
+              className="flex h-6 w-6 items-center justify-center rounded bg-surface-secondary text-text-secondary hover:bg-surface-hover transition-colors"
             >
               <Minus className="h-3 w-3" />
             </button>
-            <span className="w-5 text-center font-medium text-xs">{quantity}</span>
+            <span className="w-5 text-center font-medium text-xs text-text-primary">{quantity}</span>
             <button
               onClick={() => setQuantity(quantity + 1)}
-              className="flex h-6 w-6 items-center justify-center rounded bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors"
+              className="flex h-6 w-6 items-center justify-center rounded bg-surface-secondary text-text-secondary hover:bg-surface-hover transition-colors"
             >
               <Plus className="h-3 w-3" />
             </button>

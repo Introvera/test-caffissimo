@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { DollarSign, ShoppingCart, TrendingUp, Package } from "lucide-react";
 import { TopBar } from "@/components/layout/TopBar";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { KPICard } from "@/components/booking/KPICard";
 import { SalesChart } from "@/components/booking/SalesChart";
 import { OrdersTable } from "@/components/booking/OrdersTable";

@@ -56,10 +56,10 @@ export default function OnlineBookingsPage() {
                 <Truck className="h-4 w-4 sm:h-5 sm:w-5" />
               </div>
               <div className="min-w-0 flex-1">
-                <h2 className="text-base sm:text-lg font-semibold text-gray-900">
+                <h2 className="text-base sm:text-lg font-semibold text-text-primary">
                   Uber Eats Orders
                 </h2>
-                <p className="text-xs sm:text-sm text-gray-500">
+                <p className="text-xs sm:text-sm text-text-muted">
                   {activeUberOrders.length} active order
                   {activeUberOrders.length !== 1 ? "s" : ""}
                 </p>
@@ -77,17 +77,17 @@ export default function OnlineBookingsPage() {
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="rounded-xl sm:rounded-2xl bg-white p-6 sm:p-8 text-center shadow-card"
+                    className="rounded-xl sm:rounded-2xl bg-surface p-6 sm:p-8 text-center shadow-card"
                   >
                     <div className="mb-3 flex justify-center">
-                      <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-gray-100">
-                        <Package className="h-6 w-6 sm:h-7 sm:w-7 text-gray-400" />
+                      <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-surface-secondary">
+                        <Package className="h-6 w-6 sm:h-7 sm:w-7 text-text-muted" />
                       </div>
                     </div>
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-sm font-medium text-text-primary">
                       No Uber Eats orders
                     </p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-text-muted">
                       New orders will appear here
                     </p>
                   </motion.div>
@@ -111,10 +111,10 @@ export default function OnlineBookingsPage() {
                 <Truck className="h-4 w-4 sm:h-5 sm:w-5" />
               </div>
               <div className="min-w-0 flex-1">
-                <h2 className="text-base sm:text-lg font-semibold text-gray-900">
+                <h2 className="text-base sm:text-lg font-semibold text-text-primary">
                   DoorDash Orders
                 </h2>
-                <p className="text-xs sm:text-sm text-gray-500">
+                <p className="text-xs sm:text-sm text-text-muted">
                   {activeDoordashOrders.length} active order
                   {activeDoordashOrders.length !== 1 ? "s" : ""}
                 </p>
@@ -134,17 +134,17 @@ export default function OnlineBookingsPage() {
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="rounded-xl sm:rounded-2xl bg-white p-6 sm:p-8 text-center shadow-card"
+                    className="rounded-xl sm:rounded-2xl bg-surface p-6 sm:p-8 text-center shadow-card"
                   >
                     <div className="mb-3 flex justify-center">
-                      <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-gray-100">
-                        <Package className="h-6 w-6 sm:h-7 sm:w-7 text-gray-400" />
+                      <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-surface-secondary">
+                        <Package className="h-6 w-6 sm:h-7 sm:w-7 text-text-muted" />
                       </div>
                     </div>
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-sm font-medium text-text-primary">
                       No DoorDash orders
                     </p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-text-muted">
                       New orders will appear here
                     </p>
                   </motion.div>

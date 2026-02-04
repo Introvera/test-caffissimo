@@ -28,10 +28,10 @@ export default function OrdersPage() {
           <div className="mb-4 flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-accent-light">
             <ClipboardList className="h-8 w-8 sm:h-10 sm:w-10 text-accent" />
           </div>
-          <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
+          <h2 className="text-lg sm:text-xl font-semibold text-text-primary mb-2">
             Orders Management
           </h2>
-          <p className="text-sm sm:text-base text-gray-500 max-w-md">
+          <p className="text-sm sm:text-base text-text-muted max-w-md">
             This page will display all active orders being prepared in the kitchen.
             Track order progress and manage fulfillment in real-time.
           </p>

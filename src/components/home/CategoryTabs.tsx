@@ -28,7 +28,7 @@ export function CategoryTabs({
               "relative px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-colors duration-150 whitespace-nowrap flex-shrink-0",
               isActive
                 ? "text-white"
-                : "text-gray-600 hover:text-gray-900 bg-white hover:bg-gray-50 border border-gray-200"
+                : "text-text-secondary hover:text-text-primary bg-surface hover:bg-surface-hover border border-border"
             )}
           >
             {isActive && (

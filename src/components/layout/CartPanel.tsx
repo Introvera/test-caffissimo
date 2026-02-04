@@ -50,21 +50,21 @@ export function OrderPanel({ isOpen = true, onClose }: OrderPanelProps) {
       {/* Order Panel - visible on md+ screens */}
       <aside
         className={cn(
-          "fixed right-0 top-0 z-50 flex h-screen w-full sm:w-72 lg:w-80 flex-col border-l border-gray-100 bg-white transition-transform duration-300 ease-in-out",
+          "fixed right-0 top-0 z-50 flex h-screen w-full sm:w-72 lg:w-80 flex-col border-l border-border bg-surface transition-transform duration-300 ease-in-out",
           "md:translate-x-0 md:z-30",
           isOpen ? "translate-x-0" : "translate-x-full md:translate-x-0"
         )}
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-gray-100 p-3 lg:p-4">
+        <div className="flex items-center justify-between border-b border-border p-3 lg:p-4">
           <div>
-            <h2 className="text-base lg:text-lg font-semibold text-gray-900">Current Order</h2>
-            <p className="text-xs lg:text-sm text-gray-500">Order {orderId}</p>
+            <h2 className="text-base lg:text-lg font-semibold text-text-primary">Current Order</h2>
+            <p className="text-xs lg:text-sm text-text-muted">Order {orderId}</p>
           </div>
           {onClose && (
             <button
               onClick={onClose}
-              className="md:hidden p-2 -mr-2 text-gray-500 hover:text-gray-700"
+              className="md:hidden p-2 -mr-2 text-text-muted hover:text-text-primary"
             >
               <X className="h-5 w-5" />
             </button>
@@ -72,7 +72,7 @@ export function OrderPanel({ isOpen = true, onClose }: OrderPanelProps) {
         </div>
 
         {/* Order Type Toggle */}
-        <div className="border-b border-gray-100 p-3 lg:p-4">
+        <div className="border-b border-border p-3 lg:p-4">
           <ToggleGroup
             type="single"
             value={orderType}
@@ -101,13 +101,13 @@ export function OrderPanel({ isOpen = true, onClose }: OrderPanelProps) {
                   animate={{ opacity: 1 }}
                   className="flex flex-col items-center justify-center py-8 lg:py-12 text-center"
                 >
-                  <div className="mb-3 flex h-12 w-12 lg:h-16 lg:w-16 items-center justify-center rounded-full bg-gray-100">
-                    <Receipt className="h-6 w-6 lg:h-8 lg:w-8 text-gray-400" />
+                  <div className="mb-3 flex h-12 w-12 lg:h-16 lg:w-16 items-center justify-center rounded-full bg-surface-secondary">
+                    <Receipt className="h-6 w-6 lg:h-8 lg:w-8 text-text-muted" />
                   </div>
-                  <p className="text-sm font-medium text-gray-900">
+                  <p className="text-sm font-medium text-text-primary">
                     No items in order
                   </p>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-text-muted">
                     Tap products to add them
                   </p>
                 </motion.div>
@@ -121,9 +121,9 @@ export function OrderPanel({ isOpen = true, onClose }: OrderPanelProps) {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, x: -100 }}
                       transition={{ duration: 0.2 }}
-                      className="flex gap-2 rounded-lg bg-gray-50 p-2"
+                      className="flex gap-2 rounded-lg bg-surface-secondary p-2"
                     >
-                      <div className="h-10 w-10 lg:h-12 lg:w-12 flex-shrink-0 overflow-hidden rounded-lg bg-white">
+                      <div className="h-10 w-10 lg:h-12 lg:w-12 flex-shrink-0 overflow-hidden rounded-lg bg-surface">
                         <img
                           src={item.product.image}
                           alt={item.product.name}
@@ -133,24 +133,24 @@ export function OrderPanel({ isOpen = true, onClose }: OrderPanelProps) {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-1">
                           <div className="min-w-0">
-                            <h4 className="text-xs lg:text-sm font-medium text-gray-900 truncate">
+                            <h4 className="text-xs lg:text-sm font-medium text-text-primary truncate">
                               {item.product.name}
                             </h4>
                             {item.size && (
-                              <p className="text-xs text-gray-500">
+                              <p className="text-xs text-text-muted">
                                 {item.size}
                               </p>
                             )}
                           </div>
                           <button
                             onClick={() => removeItem(item.id)}
-                            className="p-0.5 text-gray-400 hover:text-error transition-colors flex-shrink-0"
+                            className="p-0.5 text-text-muted hover:text-error transition-colors flex-shrink-0"
                           >
                             <Trash2 className="h-3.5 w-3.5" />
                           </button>
                         </div>
                         <div className="mt-1 flex items-center justify-between">
-                          <p className="text-xs lg:text-sm font-semibold text-gray-900">
+                          <p className="text-xs lg:text-sm font-semibold text-text-primary">
                             {formatCurrency(item.totalPrice / item.quantity)}
                           </p>
                           <div className="flex items-center gap-1">
@@ -158,18 +158,18 @@ export function OrderPanel({ isOpen = true, onClose }: OrderPanelProps) {
                               onClick={() =>
                                 updateQuantity(item.id, item.quantity - 1)
                               }
-                              className="flex h-5 w-5 items-center justify-center rounded bg-white text-gray-600 shadow-sm hover:bg-gray-100 transition-colors"
+                              className="flex h-5 w-5 items-center justify-center rounded bg-surface text-text-secondary shadow-sm hover:bg-surface-hover transition-colors"
                             >
                               <Minus className="h-2.5 w-2.5" />
                             </button>
-                            <span className="w-4 text-center text-xs font-medium">
+                            <span className="w-4 text-center text-xs font-medium text-text-primary">
                               {item.quantity}
                             </span>
                             <button
                               onClick={() =>
                                 updateQuantity(item.id, item.quantity + 1)
                               }
-                              className="flex h-5 w-5 items-center justify-center rounded bg-white text-gray-600 shadow-sm hover:bg-gray-100 transition-colors"
+                              className="flex h-5 w-5 items-center justify-center rounded bg-surface text-text-secondary shadow-sm hover:bg-surface-hover transition-colors"
                             >
                               <Plus className="h-2.5 w-2.5" />
                             </button>
@@ -186,11 +186,11 @@ export function OrderPanel({ isOpen = true, onClose }: OrderPanelProps) {
 
         {/* Summary */}
         {items.length > 0 && (
-          <div className="border-t border-gray-100 p-3 lg:p-4 space-y-3 safe-area-inset-bottom">
+          <div className="border-t border-border p-3 lg:p-4 space-y-3 safe-area-inset-bottom">
             <div className="space-y-1.5 text-sm">
               <div className="flex justify-between text-xs lg:text-sm">
-                <span className="text-gray-500">Subtotal</span>
-                <span className="font-medium text-gray-900">
+                <span className="text-text-muted">Subtotal</span>
+                <span className="font-medium text-text-primary">
                   {formatCurrency(getSubtotal())}
                 </span>
               </div>
@@ -202,8 +202,8 @@ export function OrderPanel({ isOpen = true, onClose }: OrderPanelProps) {
                   </span>
                 </div>
               )}
-              <div className="flex justify-between pt-2 border-t border-dashed border-gray-200">
-                <span className="font-medium text-gray-900">Total</span>
+              <div className="flex justify-between pt-2 border-t border-dashed border-border">
+                <span className="font-medium text-text-primary">Total</span>
                 <span className="text-base lg:text-lg font-semibold text-accent">
                   {formatCurrency(getTotal())}
                 </span>
@@ -217,7 +217,7 @@ export function OrderPanel({ isOpen = true, onClose }: OrderPanelProps) {
               <Button
                 variant="ghost"
                 size="sm"
-                className="w-full text-gray-500 text-xs"
+                className="w-full text-text-muted text-xs"
                 onClick={clearCart}
               >
                 Clear Order

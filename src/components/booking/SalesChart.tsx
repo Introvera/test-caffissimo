@@ -14,6 +14,7 @@ import {
 } from "recharts";
 import { motion } from "framer-motion";
 import { SalesData } from "@/types";
+import { useThemeStore } from "@/store/useTheme";
 
 interface SalesChartProps {
   data: SalesData[];
@@ -21,14 +22,20 @@ interface SalesChartProps {
 }
 
 export function SalesChart({ data, type = "area" }: SalesChartProps) {
+  const isDark = useThemeStore((state) => state.isDark);
+  
+  const gridColor = isDark ? "#2a2a2a" : "#f0f0f0";
+  const textColor = isDark ? "#a3a3a3" : "#737373";
+  const tooltipBg = isDark ? "#1a1a1a" : "white";
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: 0.3 }}
-      className="rounded-xl sm:rounded-2xl bg-white p-4 sm:p-6 shadow-card"
+      className="rounded-xl sm:rounded-2xl bg-surface p-4 sm:p-6 shadow-card"
     >
-      <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-4 sm:mb-6">
+      <h3 className="text-base sm:text-lg font-semibold text-text-primary mb-4 sm:mb-6">
         Sales Overview
       </h3>
       
@@ -47,28 +54,28 @@ export function SalesChart({ data, type = "area" }: SalesChartProps) {
               </defs>
               <CartesianGrid
                 strokeDasharray="3 3"
-                stroke="#f0f0f0"
+                stroke={gridColor}
                 vertical={false}
               />
               <XAxis
                 dataKey="date"
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: "#737373", fontSize: 11 }}
+                tick={{ fill: textColor, fontSize: 11 }}
               />
               <YAxis
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: "#737373", fontSize: 11 }}
+                tick={{ fill: textColor, fontSize: 11 }}
                 tickFormatter={(value) => `$${value}`}
                 width={50}
               />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: "white",
+                  backgroundColor: tooltipBg,
                   border: "none",
                   borderRadius: "12px",
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
                   fontSize: "12px",
                 }}
                 formatter={(value) => [`$${value}`, "Sales"]}
@@ -88,28 +95,28 @@ export function SalesChart({ data, type = "area" }: SalesChartProps) {
             >
               <CartesianGrid
                 strokeDasharray="3 3"
-                stroke="#f0f0f0"
+                stroke={gridColor}
                 vertical={false}
               />
               <XAxis
                 dataKey="date"
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: "#737373", fontSize: 11 }}
+                tick={{ fill: textColor, fontSize: 11 }}
               />
               <YAxis
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: "#737373", fontSize: 11 }}
+                tick={{ fill: textColor, fontSize: 11 }}
                 tickFormatter={(value) => `$${value}`}
                 width={50}
               />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: "white",
+                  backgroundColor: tooltipBg,
                   border: "none",
                   borderRadius: "12px",
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
                   fontSize: "12px",
                 }}
                 formatter={(value) => [`$${value}`, "Sales"]}

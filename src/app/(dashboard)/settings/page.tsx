@@ -61,16 +61,16 @@ export default function SettingsPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
-                className="w-full flex items-center gap-3 sm:gap-4 rounded-xl sm:rounded-2xl bg-white p-3 sm:p-4 shadow-card text-left hover:shadow-lg transition-shadow duration-200"
+                className="w-full flex items-center gap-3 sm:gap-4 rounded-xl sm:rounded-2xl bg-surface p-3 sm:p-4 shadow-card text-left hover:shadow-lg transition-shadow duration-200"
               >
                 <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-accent-light flex-shrink-0">
                   <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-accent" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h3 className="font-semibold text-gray-900 text-sm sm:text-base">
+                  <h3 className="font-semibold text-text-primary text-sm sm:text-base">
                     {section.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-gray-500 truncate sm:whitespace-normal">
+                  <p className="text-xs sm:text-sm text-text-muted truncate sm:whitespace-normal">
                     {section.description}
                   </p>
                 </div>
