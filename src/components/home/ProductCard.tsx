@@ -52,10 +52,10 @@ export function ProductCard({ product, index }: ProductCardProps) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.2, delay: index * 0.03 }}
         whileHover={{ y: -2 }}
-        className="group relative rounded-xl bg-surface p-2.5 sm:p-3 shadow-card transition-shadow duration-200 hover:shadow-lg"
+        className="group relative flex flex-col sm:flex-row rounded-2xl bg-surface shadow-card transition-shadow duration-200 hover:shadow-lg w-full overflow-hidden"
       >
         {/* Product Image */}
-        <div className="relative mb-2 aspect-[4/3] overflow-hidden rounded-lg bg-surface-secondary">
+        <div className="relative w-full sm:w-[40%] xl:w-[35%] h-40 sm:h-auto overflow-hidden bg-surface-secondary flex-shrink-0">
           <img
             src={product.image}
             alt={product.name}
@@ -64,64 +64,75 @@ export function ProductCard({ product, index }: ProductCardProps) {
         </div>
 
         {/* Product Info */}
-        <div className="space-y-1.5">
-          <div className="flex items-start justify-between gap-1">
-            <h3 className="font-medium text-text-primary text-xs sm:text-sm leading-tight line-clamp-1">
-              {product.name}
-            </h3>
-            <span className="text-accent font-semibold whitespace-nowrap text-xs sm:text-sm">
-              {formatCurrency(getPrice())}
-            </span>
-          </div>
-          
-          <p className="text-xs text-text-muted line-clamp-1 leading-relaxed hidden sm:block">
-            {product.description}
-          </p>
-
-          {/* Size Selector */}
-          {product.hasSizes && (
-            <div className="flex gap-1">
-              {sizes.map((size) => (
-                <button
-                  key={size}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedSize(size);
-                  }}
-                  className={cn(
-                    "flex-1 py-1 rounded text-xs font-medium transition-all duration-150",
-                    selectedSize === size
-                      ? "bg-text-primary text-surface"
-                      : "bg-surface-secondary text-text-secondary hover:bg-surface-hover"
-                  )}
+        <div className="flex flex-col flex-grow justify-between p-3 sm:p-4 min-w-0">
+          <div className="space-y-2.5 min-w-0">
+            <div className="flex items-start justify-between gap-1.5 min-w-0">
+              <div className="min-w-0 flex-1 pr-2">
+                <p className="text-xs font-medium text-text-muted mb-0.5 truncate">{product.category}</p>
+                <h3 className="text-lg sm:text-xl font-semibold text-text-primary leading-tight line-clamp-2">
+                  {product.name}
+                </h3>
+              </div>
+              {/* Customize Button */}
+              {(hasCustomization || isCoffeeOrDrink) && (
+                <Button
+                  onClick={handleCustomize}
+                  variant="outline"
+                  size="icon"
+                  className="h-8 w-8 flex-shrink-0 rounded-lg"
                 >
-                  {size.charAt(0)}
-                </button>
-              ))}
+                  <Settings2 className="h-4 w-4" />
+                </Button>
+              )}
             </div>
-          )}
-
-          {/* Action Buttons */}
-          <div className="flex items-center gap-1.5 pt-1">
-            {/* Customize Button (for items with add-ons) */}
-            {(hasCustomization || isCoffeeOrDrink) && (
-              <Button
-                onClick={handleCustomize}
-                variant="outline"
-                size="sm"
-                className="h-7 px-2 text-xs flex-1"
-              >
-                <Settings2 className="h-3 w-3 mr-1" />
-                Customize
-              </Button>
-            )}
             
+            {/* Size Selector */}
+            {product.hasSizes && (
+              <div className="flex gap-1.5">
+                {sizes.map((size) => (
+                  <button
+                    key={size}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedSize(size);
+                    }}
+                    className={cn(
+                      "flex items-center justify-center h-8 w-8 rounded-full text-xs font-medium transition-all duration-150",
+                      selectedSize === size
+                        ? "bg-text-primary text-surface"
+                        : "bg-surface-secondary text-text-primary hover:bg-surface-hover"
+                    )}
+                  >
+                    {size.charAt(0)}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="space-y-3 mt-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xl font-bold text-text-primary">
+                {formatCurrency(getPrice())}
+              </span>
+              
+              {/* Quantity Selector Placeholder (visual only for now as requested by UI) */}
+              <div className="flex items-center gap-2">
+                <button className="h-6 w-6 rounded-full bg-surface-secondary flex items-center justify-center text-text-primary hover:bg-surface-hover transition-colors">
+                  <span className="text-sm leading-none mt-[-2px]">-</span>
+                </button>
+                <span className="text-base font-medium w-3 text-center">0</span>
+                <button className="h-6 w-6 rounded-full bg-text-primary flex items-center justify-center text-surface hover:bg-text-secondary transition-colors">
+                  <Plus className="h-3 w-3" />
+                </button>
+              </div>
+            </div>
+
             {/* Quick Add Button */}
             <motion.div
               initial={false}
-              animate={isAdded ? { scale: [1, 1.1, 1] } : {}}
+              animate={isAdded ? { scale: [1, 1.02, 1] } : {}}
               transition={{ duration: 0.15 }}
-              className={cn(hasCustomization || isCoffeeOrDrink ? "" : "flex-1")}
             >
               <Button
                 onClick={(e) => {
@@ -129,19 +140,21 @@ export function ProductCard({ product, index }: ProductCardProps) {
                   handleQuickAdd();
                 }}
                 disabled={isAdded}
-                variant={isAdded ? "success" : "default"}
-                size="sm"
+                variant="outline"
                 className={cn(
-                  "h-7 text-xs transition-all duration-150",
-                  hasCustomization || isCoffeeOrDrink ? "px-2" : "w-full"
+                  "w-full h-9 text-sm font-medium rounded-lg transition-all duration-150 border-border",
+                  isAdded ? "bg-success text-white border-success" : "hover:bg-surface-secondary"
                 )}
               >
                 {isAdded ? (
-                  <Check className="h-3.5 w-3.5" />
+                  <>
+                    <Check className="h-3.5 w-3.5 mr-1.5" />
+                    Added to Cart
+                  </>
                 ) : (
                   <>
-                    <Plus className="h-3.5 w-3.5" />
-                    {!(hasCustomization || isCoffeeOrDrink) && <span className="ml-1">Add</span>}
+                    <Plus className="h-3.5 w-3.5 mr-1.5" />
+                    Add to Cart
                   </>
                 )}
               </Button>

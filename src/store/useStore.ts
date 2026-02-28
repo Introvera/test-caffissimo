@@ -1,6 +1,7 @@
 "use client";
 
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import {
   Product,
   CartItem,
@@ -11,6 +12,20 @@ import {
   OrderStatus,
 } from "@/types";
 import { mockOnlineOrders, generateRandomOnlineOrder } from "@/data/mockOrders";
+
+interface ThemeState {
+  isDark: boolean;
+  toggle: () => void;
+}
+
+interface AuthState {
+  isAuthenticated: boolean;
+  isLocked: boolean;
+  login: () => void;
+  logout: () => void;
+  lock: () => void;
+  unlock: () => void;
+}
 
 interface OrderState {
   items: CartItem[];
@@ -58,6 +73,34 @@ function generateCartItemId(product: Product, size?: Size, addOns: AddOn[] = [])
   const addOnIds = addOns.map(a => a.id).sort().join(",");
   return `${product.id}-${size || "none"}-${addOnIds}`;
 }
+
+export const useThemeStore = create<ThemeState>()(
+  persist(
+    (set) => ({
+      isDark: false,
+      toggle: () => set((state) => ({ isDark: !state.isDark })),
+    }),
+    {
+      name: "theme-storage",
+    }
+  )
+);
+
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      isAuthenticated: false,
+      isLocked: false,
+      login: () => set({ isAuthenticated: true, isLocked: false }),
+      logout: () => set({ isAuthenticated: false, isLocked: false }),
+      lock: () => set({ isLocked: true }),
+      unlock: () => set({ isLocked: false }),
+    }),
+    {
+      name: "auth-storage",
+    }
+  )
+);
 
 export const useCartStore = create<OrderState>((set, get) => ({
   items: [],

@@ -12,6 +12,7 @@ interface TopBarProps {
   showSearch?: boolean;
   showFilter?: boolean;
   onMenuClick?: () => void;
+  onFilterClick?: () => void;
   onCartClick?: () => void;
   showCartButton?: boolean;
 }
@@ -21,6 +22,7 @@ export function TopBar({
   showSearch = true,
   showFilter = true,
   onMenuClick,
+  onFilterClick,
   onCartClick,
   showCartButton = false,
 }: TopBarProps) {
@@ -50,7 +52,12 @@ export function TopBar({
         )}
 
         {showFilter && (
-          <Button variant="default" size="sm" className="gap-1.5 hidden sm:flex">
+          <Button 
+            variant="default" 
+            size="sm" 
+            className="gap-1.5 hidden sm:flex"
+            onClick={onFilterClick}
+          >
             <SlidersHorizontal className="h-3.5 w-3.5" />
             <span className="hidden lg:inline">Filter</span>
           </Button>

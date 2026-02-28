@@ -1,11 +1,12 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
-import { Clock, MessageSquare, ChevronRight } from "lucide-react";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Clock, MessageSquare, ChevronRight, AlertCircle, X } from "lucide-react";
 import { OnlineOrder, OrderStatus } from "@/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { formatCurrency, formatTime } from "@/lib/utils";
 import { useOnlineOrdersStore } from "@/store/useStore";
 import { cn } from "@/lib/utils";
@@ -44,6 +45,10 @@ export function OnlineOrderCard({ order, index }: OnlineOrderCardProps) {
     (state) => state.updateOrderStatus
   );
 
+  const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
+  const [supervisorKey, setSupervisorKey] = useState("");
+  const [keyError, setKeyError] = useState(false);
+
   const handleAction = () => {
     const nextStatus = statusFlow[order.status];
     if (nextStatus) {
@@ -51,8 +56,19 @@ export function OnlineOrderCard({ order, index }: OnlineOrderCardProps) {
     }
   };
 
-  const handleReject = () => {
-    updateOrderStatus(order.id, "Cancelled");
+  const handleRejectClick = () => {
+    setIsRejectModalOpen(true);
+  };
+
+  const submitReject = () => {
+    if (supervisorKey === "1234") { // Simple mock key validation
+      updateOrderStatus(order.id, "Cancelled");
+      setIsRejectModalOpen(false);
+      setSupervisorKey("");
+      setKeyError(false);
+    } else {
+      setKeyError(true);
+    }
   };
 
   const isUber = order.platform === "UBER_EATS";
@@ -131,7 +147,7 @@ export function OnlineOrderCard({ order, index }: OnlineOrderCardProps) {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={handleReject}
+                onClick={handleRejectClick}
                 className="text-error hover:text-error hover:bg-red-500/10 text-xs sm:text-sm px-2 sm:px-3"
               >
                 Reject
@@ -149,6 +165,148 @@ export function OnlineOrderCard({ order, index }: OnlineOrderCardProps) {
           </div>
         )}
       </div>
+
+      {/* Reject Modal */}
+      <AnimatePresence>
+        {isRejectModalOpen && (
+          <React.Fragment>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm"
+              onClick={() => {
+                setIsRejectModalOpen(false);
+                setKeyError(false);
+                setSupervisorKey("");
+              }}
+            />
+            <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
+              <motion.div
+                initial={{ scale: 0.95, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.95, opacity: 0 }}
+                className="relative w-full max-w-sm rounded-2xl bg-surface p-6 shadow-2xl border border-border"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <button
+                  onClick={() => {
+                    setIsRejectModalOpen(false);
+                    setKeyError(false);
+                    setSupervisorKey("");
+                  }}
+                  className="absolute right-4 top-4 rounded-full p-1.5 text-text-muted hover:bg-surface-secondary hover:text-text-primary transition-colors"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+
+                <div className="flex flex-col items-center text-center">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-500/10 text-error">
+                    <AlertCircle className="h-6 w-6" />
+                  </div>
+                  <h3 className="mb-2 text-xl font-bold text-text-primary">
+                    Reject Order
+                  </h3>
+                  <p className="mb-6 text-sm text-text-muted">
+                    This action requires supervisor approval. Please enter the supervisor key to continue.
+                  </p>
+
+                  <div className="w-full space-y-5">
+                    <div>
+                      <Input
+                        type="password"
+                        placeholder="Enter Supervisor Key"
+                        value={supervisorKey}
+                        readOnly
+                        className={cn("w-full text-center tracking-[0.5em] text-lg h-12 bg-surface-secondary cursor-default focus-visible:ring-0 focus-visible:ring-offset-0", keyError && "border-error text-error")}
+                        autoFocus
+                      />
+                      {keyError && (
+                        <p className="mt-1.5 text-xs text-error text-center w-full">
+                          Invalid supervisor key
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Number Pad */}
+                    <div className="grid grid-cols-3 gap-2">
+                      {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
+                        <Button
+                          key={num}
+                          type="button"
+                          variant="outline"
+                          className="h-12 text-lg font-medium rounded-xl border-border bg-surface hover:bg-surface-secondary"
+                          onClick={() => {
+                            setSupervisorKey((prev) => prev.length < 8 ? prev + num : prev);
+                            setKeyError(false);
+                          }}
+                        >
+                          {num}
+                        </Button>
+                      ))}
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="h-12 text-sm font-medium rounded-xl border-border bg-surface hover:bg-surface-secondary text-text-muted"
+                        onClick={() => {
+                          setSupervisorKey("");
+                          setKeyError(false);
+                        }}
+                      >
+                        Clear
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="h-12 text-lg font-medium rounded-xl border-border bg-surface hover:bg-surface-secondary"
+                        onClick={() => {
+                          setSupervisorKey((prev) => prev.length < 8 ? prev + "0" : prev);
+                          setKeyError(false);
+                        }}
+                      >
+                        0
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="h-12 text-sm font-medium rounded-xl border-border bg-surface hover:bg-surface-secondary text-text-muted"
+                        onClick={() => {
+                          setSupervisorKey((prev) => prev.slice(0, -1));
+                          setKeyError(false);
+                        }}
+                      >
+                        Del
+                      </Button>
+                    </div>
+                    
+                    <div className="flex gap-3 pt-2 border-t border-border">
+                      <Button
+                        variant="ghost"
+                        className="flex-1"
+                        onClick={() => {
+                          setIsRejectModalOpen(false);
+                          setKeyError(false);
+                          setSupervisorKey("");
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        variant="default"
+                        className="flex-1 bg-error hover:bg-red-600 text-white border-0"
+                        onClick={submitReject}
+                        disabled={supervisorKey.length === 0}
+                      >
+                        Reject
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </React.Fragment>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }

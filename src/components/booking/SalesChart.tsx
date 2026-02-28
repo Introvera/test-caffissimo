@@ -14,14 +14,14 @@ import {
 } from "recharts";
 import { motion } from "framer-motion";
 import { SalesData } from "@/types";
-import { useThemeStore } from "@/store/useTheme";
+import { useThemeStore } from "@/store/useStore";
 
-interface SalesChartProps {
+interface SalesDataPoint {
   data: SalesData[];
   type?: "area" | "bar";
 }
 
-export function SalesChart({ data, type = "area" }: SalesChartProps) {
+export function SalesChart({ data, type = "area" }: SalesDataPoint) {
   const isDark = useThemeStore((state) => state.isDark);
   
   const gridColor = isDark ? "#2a2a2a" : "#f0f0f0";

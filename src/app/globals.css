@@ -3,25 +3,25 @@
 /* Design Tokens - Caffissimo Premium Palette */
 :root {
   /* Light Mode Colors */
-  --color-cream: #faf8f5;
-  --color-cream-dark: #f5f1eb;
-  --color-beige: #f0ebe3;
-  --color-beige-dark: #e8e1d5;
+  --color-cream: #fcf9f5;
+  --color-cream-dark: #f5eee6;
+  --color-beige: #efe3d5;
+  --color-beige-dark: #e6d1bd;
   
   --color-surface: #ffffff;
   --color-surface-hover: #fafafa;
-  --color-surface-secondary: #f5f5f5;
+  --color-surface-secondary: #fdfaf7;
   
-  --color-accent: #e07c3f;
-  --color-accent-hover: #d06830;
-  --color-accent-light: #fdf4ef;
+  --color-accent: #BF8965;
+  --color-accent-hover: #a67351;
+  --color-accent-light: #faefe8;
   
-  --color-text-primary: #171717;
-  --color-text-secondary: #525252;
-  --color-text-muted: #737373;
+  --color-text-primary: #4F3422;
+  --color-text-secondary: #745642;
+  --color-text-muted: #967863;
   
-  --color-border: #e5e5e5;
-  --color-border-light: #f0f0f0;
+  --color-border: #e6d8cc;
+  --color-border-light: #f2e8df;
   
   --color-success: #22c55e;
   --color-warning: #f59e0b;
@@ -40,25 +40,30 @@
 
 /* Dark Mode Colors */
 .dark {
-  --color-cream: #0a0a0a;
-  --color-cream-dark: #141414;
-  --color-beige: #1a1a1a;
-  --color-beige-dark: #262626;
+  /* Dark Mode - Cozy & Minimal */
+  --color-cream: #12100E;
+  --color-cream-dark: #161311;
+  --color-beige: #1a1715;
+  --color-beige-dark: #1E1A18;
   
-  --color-surface: #141414;
-  --color-surface-hover: #1f1f1f;
-  --color-surface-secondary: #1a1a1a;
+  /* Cards / Surfaces staying a slightly elevated warm tone */
+  --color-surface: #1C1917;
+  --color-surface-hover: #211E1C;
+  --color-surface-secondary: #262220;
   
-  --color-accent: #f0984f;
-  --color-accent-hover: #e8863a;
-  --color-accent-light: #2a1f17;
+  /* Accents */
+  --color-accent: #C79776;
+  --color-accent-hover: #AB8165;
+  --color-accent-light: #362923;
   
-  --color-text-primary: #f5f5f5;
-  --color-text-secondary: #a3a3a3;
-  --color-text-muted: #737373;
+  /* Text */
+  --color-text-primary: #EDEBEA;
+  --color-text-secondary: #B6AEA9;
+  --color-text-muted: #827C78;
   
-  --color-border: #2a2a2a;
-  --color-border-light: #1f1f1f;
+  /* Subdued Borders */
+  --color-border: #292523;
+  --color-border-light: #211E1C;
   
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);

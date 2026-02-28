@@ -44,7 +44,7 @@ export default function BookingSummaryPage() {
       className="min-h-screen"
     >
       <TopBar
-        title="Booking Summary"
+        title="Sales Summary"
         showSearch={false}
         showFilter={false}
         onMenuClick={openSidebar}
@@ -120,7 +120,7 @@ export default function BookingSummaryPage() {
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
           <SalesChart
             data={mockSalesData}
-            type={salesTab === "online" ? "area" : "bar"}
+            type="bar" // Using the same chart type for both Online and On Site
           />
           <OrdersTable orders={mockHistoryOrders} />
         </div>

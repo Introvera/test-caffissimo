@@ -23,3 +23,11 @@ export function formatTime(date: Date): string {
     hour12: true,
   });
 }
+
+export function formatDate(date: Date): string {
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}

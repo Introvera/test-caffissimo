@@ -1,15 +1,18 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Minus, Plus, Trash2, Receipt, X } from "lucide-react";
+import { Minus, Plus, Trash2, Receipt, X, AlertCircle } from "lucide-react";
 import { useCartStore } from "@/store/useStore";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { formatCurrency, generateOrderId } from "@/lib/utils";
 import { OrderType } from "@/types";
 import { cn } from "@/lib/utils";
+import { PaymentModal } from "./PaymentModal";
+import { PinPad } from "@/components/auth/PinPad";
 
 interface OrderPanelProps {
   isOpen?: boolean;
@@ -29,7 +32,23 @@ export function OrderPanel({ isOpen = true, onClose }: OrderPanelProps) {
     getTotal,
   } = useCartStore();
 
+  const [isPaymentOpen, setIsPaymentOpen] = useState(false);
+  const [isClearModalOpen, setIsClearModalOpen] = useState(false);
+  const [supervisorKey, setSupervisorKey] = useState("");
+  const [keyError, setKeyError] = useState(false);
   const orderId = React.useMemo(() => generateOrderId(), []);
+
+  const handleClearSubmit = () => {
+    if (supervisorKey === "1234") {
+      clearCart();
+      setIsClearModalOpen(false);
+      setSupervisorKey("");
+      setKeyError(false);
+    } else {
+      setKeyError(true);
+      setSupervisorKey("");
+    }
+  };
 
   return (
     <>
@@ -72,7 +91,7 @@ export function OrderPanel({ isOpen = true, onClose }: OrderPanelProps) {
         </div>
 
         {/* Order Type Toggle */}
-        <div className="border-b border-border p-3 lg:p-4">
+        {/* <div className="border-b border-border p-3 lg:p-4">
           <ToggleGroup
             type="single"
             value={orderType}
@@ -89,7 +108,7 @@ export function OrderPanel({ isOpen = true, onClose }: OrderPanelProps) {
               Take away
             </ToggleGroupItem>
           </ToggleGroup>
-        </div>
+        </div> */}
 
         {/* Order Items */}
         <ScrollArea className="flex-1">
@@ -228,14 +247,18 @@ export function OrderPanel({ isOpen = true, onClose }: OrderPanelProps) {
             </div>
 
             <div className="space-y-2">
-              <Button className="w-full" size="default">
+              <Button 
+                className="w-full" 
+                size="default" 
+                onClick={() => setIsPaymentOpen(true)}
+              >
                 Charge {formatCurrency(getTotal())}
               </Button>
               <Button
                 variant="ghost"
                 size="sm"
                 className="w-full text-text-muted text-xs"
-                onClick={clearCart}
+                onClick={() => setIsClearModalOpen(true)}
               >
                 Clear Order
               </Button>
@@ -243,6 +266,117 @@ export function OrderPanel({ isOpen = true, onClose }: OrderPanelProps) {
           </div>
         )}
       </aside>
+
+      <PaymentModal
+        isOpen={isPaymentOpen}
+        onClose={() => setIsPaymentOpen(false)}
+        onSuccess={() => {
+          clearCart();
+          if (onClose) onClose();
+        }}
+        totalAmount={getTotal()}
+      />
+
+      {/* Clear Order Supervisor Key Modal */}
+      <AnimatePresence>
+        {isClearModalOpen && (
+          <React.Fragment>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm"
+              onClick={() => {
+                setIsClearModalOpen(false);
+                setKeyError(false);
+                setSupervisorKey("");
+              }}
+            />
+            <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
+              <motion.div
+                initial={{ scale: 0.95, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.95, opacity: 0 }}
+                className="relative w-full max-w-sm rounded-2xl bg-surface p-5 sm:p-6 shadow-2xl border border-border"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <button
+                  onClick={() => {
+                    setIsClearModalOpen(false);
+                    setKeyError(false);
+                    setSupervisorKey("");
+                  }}
+                  className="absolute right-4 top-4 rounded-full p-1.5 text-text-muted hover:bg-surface-secondary hover:text-text-primary transition-colors"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+
+                <div className="flex flex-col items-center text-center">
+                  <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-red-500/10 text-error">
+                    <AlertCircle className="h-6 w-6" />
+                  </div>
+                  <h3 className="mb-1 text-lg font-bold text-text-primary">
+                    Clear Order
+                  </h3>
+                  <p className="mb-4 text-sm text-text-muted">
+                    Enter supervisor key to clear this order.
+                  </p>
+
+                  <div className="w-full space-y-4">
+                    <div>
+                      <Input
+                        type="password"
+                        placeholder="Enter PIN"
+                        value={supervisorKey}
+                        readOnly
+                        className={cn("w-full h-12 text-center text-xl tracking-[0.4em] bg-surface-secondary border-2 cursor-default focus-visible:ring-0 focus-visible:ring-offset-0 rounded-xl", keyError ? "border-error text-error" : "border-border text-text-primary")}
+                      />
+                      {keyError && (
+                        <p className="mt-1 text-xs text-error text-center">
+                          Invalid supervisor key
+                        </p>
+                      )}
+                    </div>
+
+                    <PinPad
+                      onKeyPress={(key) => {
+                        if (supervisorKey.length < 8) {
+                          setSupervisorKey((prev) => prev + key);
+                          setKeyError(false);
+                        }
+                      }}
+                      onClear={() => { setSupervisorKey(""); setKeyError(false); }}
+                      onDelete={() => { setSupervisorKey((prev) => prev.slice(0, -1)); setKeyError(false); }}
+                    />
+                    
+                    <div className="flex gap-3 pt-1 border-t border-border">
+                      <Button
+                        variant="ghost"
+                        className="flex-1"
+                        onClick={() => {
+                          setIsClearModalOpen(false);
+                          setKeyError(false);
+                          setSupervisorKey("");
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        variant="default"
+                        className="flex-1 bg-error hover:bg-red-600 text-white border-0"
+                        onClick={handleClearSubmit}
+                        disabled={supervisorKey.length === 0}
+                      >
+                        Clear Order
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </React.Fragment>
+        )}
+      </AnimatePresence>
     </>
   );
 }

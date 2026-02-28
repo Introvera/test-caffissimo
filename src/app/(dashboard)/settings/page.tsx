@@ -22,16 +22,16 @@ const settingsSections = [
     description: "Password, 2FA, and security preferences",
     icon: Shield,
   },
-  {
-    title: "Appearance",
-    description: "Customize the look and feel of your dashboard",
-    icon: Palette,
-  },
-  {
-    title: "Language & Region",
-    description: "Set your preferred language and timezone",
-    icon: Globe,
-  },
+  // {
+  //   title: "Appearance",
+  //   description: "Customize the look and feel of your dashboard",
+  //   icon: Palette,
+  // },
+  // {
+  //   title: "Language & Region",
+  //   description: "Set your preferred language and timezone",
+  //   icon: Globe,
+  // },
 ];
 
 export default function SettingsPage() {

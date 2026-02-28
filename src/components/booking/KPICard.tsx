@@ -51,7 +51,7 @@ export function KPICard({
               )}
               <span className="truncate">
                 {isPositive ? "+" : ""}
-                {change}%
+                {change.toFixed(2)}%
                 <span className="hidden sm:inline"> from last week</span>
               </span>
             </div>

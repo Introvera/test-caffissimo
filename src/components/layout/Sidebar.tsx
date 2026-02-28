@@ -18,7 +18,7 @@ import {
   Moon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useThemeStore } from "@/store/useTheme";
+import { useThemeStore, useAuthStore } from "@/store/useStore";
 
 interface NavItem {
   label: string;
@@ -31,7 +31,7 @@ const navItems: NavItem[] = [
   { label: "Home", href: "/", icon: Home },
   { label: "Summary", href: "/booking-summary", icon: BarChart3 },
   { label: "Online", href: "/online-bookings", icon: ShoppingBag },
-  { label: "Orders", href: "/orders", icon: ClipboardList, badge: 13 },
+  // { label: "Orders", href: "/orders", icon: ClipboardList, badge: 13 },
   { label: "History", href: "/history", icon: History },
   { label: "Settings", href: "/settings", icon: Settings },
 ];
@@ -44,6 +44,7 @@ interface SidebarProps {
 export function Sidebar({ isOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
   const { isDark, toggle } = useThemeStore();
+  const { logout } = useAuthStore();
 
   return (
     <>
@@ -70,8 +71,13 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
       >
         {/* Brand Header */}
         <div className="flex h-14 items-center justify-center border-b border-border">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-accent-light">
-            <Coffee className="h-5 w-5 text-accent" />
+          <div className="flex h-10 w-10 items-center justify-center overflow-hidden flex-shrink-0">
+            <img 
+              src="/logo.png" 
+              alt="Caffissimo" 
+              className="h-full w-full object-contain drop-shadow-sm transition-all duration-300"
+              style={{ filter: isDark ? 'brightness(0) invert(1)' : 'none' }}
+            />
           </div>
         </div>
 
@@ -153,6 +159,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 
           {/* Logout */}
           <button 
+            onClick={logout}
             title="Log out"
             className="group relative flex h-10 w-10 items-center justify-center rounded-xl text-text-muted hover:bg-surface-hover hover:text-text-primary transition-all duration-200 mx-auto"
           >

@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Order } from "@/types";
-import { formatCurrency, formatTime } from "@/lib/utils";
+import { formatCurrency, formatTime, formatDate } from "@/lib/utils";
 
 interface OrdersTableProps {
   orders: Order[];
@@ -45,7 +45,7 @@ export function OrdersTable({ orders }: OrdersTableProps) {
               <Badge variant={statusVariant[order.status]}>{order.status}</Badge>
             </div>
             <div className="flex items-center justify-between text-sm">
-              <span className="text-text-muted">{order.orderType}</span>
+              <span className="text-text-muted">{formatDate(order.createdAt)}</span>
               <span className="text-text-muted">{formatTime(order.createdAt)}</span>
             </div>
             <div className="flex items-center justify-between">
@@ -67,7 +67,7 @@ export function OrdersTable({ orders }: OrdersTableProps) {
                 Order ID
               </th>
               <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-text-muted uppercase tracking-wider">
-                Type
+                Date
               </th>
               <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-text-muted uppercase tracking-wider">
                 Time
@@ -95,7 +95,7 @@ export function OrdersTable({ orders }: OrdersTableProps) {
                   </span>
                 </td>
                 <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
-                  <span className="text-sm text-text-muted">{order.orderType}</span>
+                  <span className="text-sm text-text-muted">{formatDate(order.createdAt)}</span>
                 </td>
                 <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
                   <span className="text-sm text-text-muted">

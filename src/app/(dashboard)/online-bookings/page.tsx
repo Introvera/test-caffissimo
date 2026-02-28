@@ -32,7 +32,7 @@ export default function OnlineBookingsPage() {
       className="min-h-screen"
     >
       <TopBar
-        title="Online Bookings"
+        title="Online Orders"
         showSearch={false}
         showFilter={false}
         onMenuClick={openSidebar}

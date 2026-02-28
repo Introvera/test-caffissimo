@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useThemeStore } from "@/store/useTheme";
+import { useThemeStore } from "@/store/useStore";
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const isDark = useThemeStore((state) => state.isDark);
